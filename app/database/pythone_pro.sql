@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2024 at 12:29 PM
+-- Generation Time: Nov 21, 2024 at 07:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -108,10 +108,7 @@ INSERT INTO `module` (`module_id`, `class_id`, `module_name`, `description`, `se
 (2, 2, 'Computer Science Basics', 'Introduction to Programming', 'Semester 1'),
 (3, 1, 'Advanced Algebra', 'Advanced topics in Algebra', 'Semester 2'),
 (4, 1, 'Statistics', 'Introduction to Statistics', 'Semester 2'),
-(5, 1, 'Calculus', 'Calculus fundamentals', 'Semester 2'),
-(6, 1, 'Advanced Algebra', 'Advanced topics in Algebra', 'Semester 2'),
-(7, 1, 'Statistics', 'Introduction to Statistics', 'Semester 2'),
-(8, 1, 'Calculus', 'Calculus fundamentals', 'Semester 2');
+(5, 1, 'Calculus', 'Calculus fundamentals', 'Semester 2');
 
 -- --------------------------------------------------------
 
@@ -134,7 +131,7 @@ CREATE TABLE `student` (
 
 INSERT INTO `student` (`student_id`, `name`, `date_of_birth`, `email`, `phone_number`, `password`) VALUES
 ('S123456789', 'Hassan Ali', '2000-05-15', 'hassan.ali@student.com', '0687654321', 'studentpassword123'),
-('S987654321', 'Sara Omar', '2001-02-20', 'sara.omar@student.com', '0681234567', 'studentpassword456');
+('S987654321', 'aziz king', '2001-02-20', 'aziz.belharcha@student.com', '0681234567', 'studentpassword456');
 
 -- --------------------------------------------------------
 
@@ -160,7 +157,7 @@ CREATE TABLE `student_subject_information` (
 --
 
 INSERT INTO `student_subject_information` (`subject_id`, `student_id`, `controle`, `final_exam`, `late`, `absence`, `tp`, `controle_percentage`, `final_exam_percentage`, `tp_percentage`) VALUES
-(1, 'S123456789', 14.5, 16, 0, 1, 10, 0, 0, 0),
+(1, 'S987654321', 14.5, 16, 0, 1, 10, 0, 0, 0),
 (2, 'S123456789', 12, 13.5, 1, 0, 15, 0, 0, 0),
 (3, 'S123456789', 12, 15, 1, 0, 15, 0, 0, 0);
 
@@ -229,6 +226,28 @@ INSERT INTO `teatcher` (`admin_id2`, `name`, `email`, `phone_number`, `password`
 (1, 'Dr. Aziz', 'dr.aziz@example.com', '0745123456', 'teacherpassword123'),
 (2, 'Prof. Thomas', 'prof.thomas@example.com', '0745987654', 'teacherpassword456');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `time_table`
+--
+
+CREATE TABLE `time_table` (
+  `time_table_id` int(11) NOT NULL,
+  `subject_id` int(11) NOT NULL,
+  `course_type` varchar(50) DEFAULT NULL,
+  `course_time` time DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `time_table`
+--
+
+INSERT INTO `time_table` (`time_table_id`, `subject_id`, `course_type`, `course_time`) VALUES
+(1, 1, 'Lecture', '09:00:00'),
+(2, 2, 'Practical', '14:30:00'),
+(3, 3, 'Lecture', '11:00:00');
+
 --
 -- Indexes for dumped tables
 --
@@ -294,6 +313,13 @@ ALTER TABLE `teatcher`
   ADD PRIMARY KEY (`admin_id2`);
 
 --
+-- Indexes for table `time_table`
+--
+ALTER TABLE `time_table`
+  ADD PRIMARY KEY (`time_table_id`),
+  ADD KEY `subject_id` (`subject_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -334,6 +360,12 @@ ALTER TABLE `teatcher`
   MODIFY `admin_id2` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `time_table`
+--
+ALTER TABLE `time_table`
+  MODIFY `time_table_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -369,6 +401,12 @@ ALTER TABLE `subject`
 ALTER TABLE `supervision`
   ADD CONSTRAINT `supervision_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`admin_id`),
   ADD CONSTRAINT `supervision_ibfk_2` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`);
+
+--
+-- Constraints for table `time_table`
+--
+ALTER TABLE `time_table`
+  ADD CONSTRAINT `time_table_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
